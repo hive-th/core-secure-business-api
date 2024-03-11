@@ -1,0 +1,39 @@
+﻿{
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "API": {
+      "commandName": "Project",
+      "dotnetRunMessages": "true",
+      "launchBrowser": false,
+      "hotReloadProfile": "aspnetcore",
+      "launchUrl": "swagger",
+      "applicationUrl": "http://localhost:5018",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "API_KEYS": "R7GbTnh6IGz7443EkOl0x@uUStT6cH3UpKkAe9N00@CRt4m04x@GfK0OBHktxII2",
+        "BASIC_AUTHENTICATION_USERNAME": "20gECgOFNX]73_Y2pFt6Kn6Pne9pu-3EtMt]iSAF/mM_R9B7B_xP--[zJ+zQ*hhtKF2vDTgaKE[NkOQM+HkJvOlPDlDPYac9u[eYZJ0Bo+b/jBmV46LGgzOf]Q]cji--",
+        "BASIC_AUTHENTICATION_PASSWORD": "jpbw*OWy[EnY127--TA]LnbeO7smPL-KD8iFh4BWyBIim7Y332ZA3NTo5ng_1LiW9gdV60Ycrmidg04s-3vv40*dLO7OwLYznFFSU+rmubSR-*c*gEEWXejcx4Jpc1L7",
+        "POSTGRES_CONNECTIONSTRING": "Host=localhost; Port=5432; User ID=postgres; Password=1234; Database=secure-business-dev; Pooling=true; Connection Idle Lifetime=10; Minimum Pool Size=2; Maximum Pool Size=50;",
+        "AUTH_API_ENDPOINT": "http://hivedev.thddns.net:4471/",
+        "AUTH_JWKS_ENDPOINT": "http://hivedev.thddns.net:4471/oauth2/keys",
+        "AUTH_BASIC_AUTHENTICATION_USERNAME": "20gECgOFNX]73_Y2pFt6Kn6Pne9pu-3EtMt]iSAF/mM_R9B7B_xP--[zJ+zQ*hhtKF2vDTgaKE[NkOQM+HkJvOlPDlDPYac9u[eYZJ0Bo+b/jBmV46LGgzOf]Q]cji--",
+        "AUTH_BASIC_AUTHENTICATION_PASSWORD": "jpbw*OWy[EnY127--TA]LnbeO7smPL-KD8iFh4BWyBIim7Y332ZA3NTo5ng_1LiW9gdV60Ycrmidg04s-3vv40*dLO7OwLYznFFSU+rmubSR-*c*gEEWXejcx4Jpc1L7",
+
+        "BP_API_ENDPOINT": "http://hivedev.thddns.net:4472",
+        "BP_BASIC_AUTHENTICATION_USERNAME": "20gECgOFNX]73_Y2pFt6Kn6Pne9pu-3EtMt]iSAF/mM_R9B7B_xP--[zJ+zQ*hhtKF2vDTgaKE[NkOQM+HkJvOlPDlDPYac9u[eYZJ0Bo+b/jBmV46LGgzOf]Q]cji--",
+        "BP_BASIC_AUTHENTICATION_PASSWORD": "jpbw*OWy[EnY127--TA]LnbeO7smPL-KD8iFh4BWyBIim7Y332ZA3NTo5ng_1LiW9gdV60Ycrmidg04s-3vv40*dLO7OwLYznFFSU+rmubSR-*c*gEEWXejcx4Jpc1L7",
+
+        "REDIS_CONNECTIONSTRING": "localhost:6379,password=1234",
+        "NOTIFICATION_ENDPOINT": "http://hivedev.thddns.net:4474",
+        "RESOURCE_API_ENDPOINT": "http://hivedev.thddns.net:4473",
+        "AMQP_HOST": "localhost",
+        "AMQP_PORT": "5672",
+        "AMQP_USERNAME": "guest",
+        "AMQP_PASSWORD": "guest",
+        "AMQP_SYNC_DELETE_ACCOUNT_EXCHANGE_KEY": "sync.delete.account",
+        "HASH_SECRET_KEY": "0123456789abcdef0123456789abcdef",
+        "HASH_SECRET_IV": "abcdef9876543210"
+      }
+    }
+  }
+}
