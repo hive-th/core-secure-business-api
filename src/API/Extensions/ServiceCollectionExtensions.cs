@@ -1,11 +1,24 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using Core.DotNet.Domain.Services;
 using Core.DotNet.Infrastructure;
+using Core.Secure.Business.Domain.AggregatesModel.CartAggregate.Interface;
+using Core.Secure.Business.Domain.AggregatesModel.LoggingAggregate.Interface;
+using Core.Secure.Business.Domain.AggregatesModel.OrderAggregate.Interface;
 using Core.Secure.Business.Domain.AggregatesModel.ProviderAggregate.RabbitMQAggregate.Interface;
+using Core.Secure.Business.Domain.AggregatesModel.ScalableAggregate.AuthAggregate.Interface;
+using Core.Secure.Business.Domain.AggregatesModel.ScalableAggregate.BPAggregate.Interface;
+using Core.Secure.Business.Domain.AggregatesModel.ScalableAggregate.MarketingAggregate.Interface;
+using Core.Secure.Business.Domain.AggregatesModel.ScalableAggregate.PaymentAggregate.Interface;
+using Core.Secure.Business.Domain.AggregatesModel.ScalableAggregate.ProductAggregate.Interface;
+using Core.Secure.Business.Domain.Services;
+using Core.Secure.Business.Domain.Services.Interface;
 using Core.Secure.Business.Infrastructure.Configurations;
 using Core.Secure.Business.Infrastructure.DbContexts;
 using Core.Secure.Business.Infrastructure.Extensions;
+using Core.Secure.Business.Infrastructure.Repositories;
 using Core.Secure.Business.Infrastructure.Repositories.ProviderRepository;
+using Core.Secure.Business.Infrastructure.Repositories.ScalableRepository;
 using Microsoft.EntityFrameworkCore;
 
 namespace Core.Secure.Business.API.Extensions;
@@ -27,7 +40,10 @@ public static class ServiceCollectionExtensions
 
         #region Repositories
         
-        //services.AddScoped<IAttributeOptionRepository, AttributeOptionRepository>();
+        services.AddScoped<ICartRepository, CartRepository>();
+        services.AddScoped<ILogSystemRepository, LogSystemRepository>();
+        services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddScoped<IOrderRequestRepository, OrderRequestRepository>();
         
         #endregion
         
@@ -42,13 +58,21 @@ public static class ServiceCollectionExtensions
         
         #region Repositories ScalableRepository
         
-        //services.AddScoped<IBPRepository, BPRepository>();
-   
+        services.AddScoped<IAuthRepository, AuthRepository>();
+        services.AddScoped<IBPRepository, BPRepository>();
+        services.AddScoped<IMarketingRepository, MarketingRepository>();
+        services.AddScoped<IPaymentRepository, PaymentRepository>();
+        services.AddScoped<IProductRepository, ProductRepository>();
+        
         #endregion
 
         #region Services
         
-        //services.AddTransient<ICacheService, CacheService>();
+        services.AddTransient<IAuthService, AuthService>();
+        services.AddTransient<ICacheService, CacheService>();
+        services.AddTransient<ICartService, CartService>();
+        services.AddTransient<ILoggingService, LoggingService>();
+        services.AddTransient<IOrderService, OrderService>();
         
         #endregion
 
