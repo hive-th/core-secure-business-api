@@ -19,7 +19,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Core.Secure.Business.Infrastructure.Migrations
 {
     [DbContext(typeof(BusinessDbContext))]
-    [Migration("20240313094657_InitialDatabase")]
+    [Migration("20240320053559_InitialDatabase")]
     partial class InitialDatabase
     {
         /// <inheritdoc />
@@ -43,8 +43,9 @@ namespace Core.Secure.Business.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("buyer_id");
 
-                    b.Property<CartType>("CartType")
-                        .HasColumnType("jsonb")
+                    b.Property<string>("CartType")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("cart_type");
 
                     b.Property<DateTime>("CreatedAt")
@@ -55,6 +56,10 @@ namespace Core.Secure.Business.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("created_by");
 
+                    b.Property<List<Dealer>>("Dealers")
+                        .HasColumnType("jsonb")
+                        .HasColumnName("dealers");
+
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at");
@@ -63,17 +68,17 @@ namespace Core.Secure.Business.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("deleted_by");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("text")
-                        .HasColumnName("description");
-
-                    b.Property<CartDetail>("Detail")
-                        .HasColumnType("jsonb")
-                        .HasColumnName("detail");
-
                     b.Property<string>("GuestId")
                         .HasColumnType("text")
                         .HasColumnName("guest_id");
+
+                    b.Property<List<Promotion>>("Promotions")
+                        .HasColumnType("jsonb")
+                        .HasColumnName("promotions");
+
+                    b.Property<Summary>("Summary")
+                        .HasColumnType("jsonb")
+                        .HasColumnName("summary");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -444,12 +449,14 @@ namespace Core.Secure.Business.Infrastructure.Migrations
                         .HasColumnType("jsonb")
                         .HasColumnName("promotion");
 
-                    b.Property<ShippingType>("ShippingType")
-                        .HasColumnType("jsonb")
+                    b.Property<string>("ShippingType")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("shipping_type");
 
-                    b.Property<OrderStatus>("Status")
-                        .HasColumnType("jsonb")
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("status");
 
                     b.Property<CartPromotionSubcartDiscountResponse>("SuborderDiscount")
@@ -460,8 +467,9 @@ namespace Core.Secure.Business.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("suborder_no");
 
-                    b.Property<SuborderType>("SuborderType")
-                        .HasColumnType("jsonb")
+                    b.Property<string>("SuborderType")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("suborder_type");
 
                     b.Property<decimal>("TotalAmount")

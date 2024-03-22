@@ -1,4 +1,7 @@
+using Core.DotNet.Extensions.Utilities;
+using Core.Secure.Business.Domain.AggregatesModel.ScalableAggregate.BPAggregate;
 using Core.Secure.Business.Domain.AggregatesModel.ScalableAggregate.BPAggregate.Interface;
+using Core.Secure.Business.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Distributed;
 
@@ -15,5 +18,19 @@ public class BPRepository : IBPRepository
         _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
         _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
         _distributedCache = distributedCache ?? throw new ArgumentNullException(nameof(distributedCache));
+    }
+    
+    public async Task<VendorDetailResponse> GetVendorByIdAsync(Guid vendorId)
+    {
+        var client = _httpClientFactory.CreateBPApiClient();
+        client.ForwardHeaders(_httpContextAccessor);
+
+        var clientResult = await client.GetAsync($"vendor/{vendorId.ToString()}");
+        var content = await clientResult.Content.ReadAsStringAsync();
+
+        if (!clientResult.IsSuccessStatusCode)
+            return null;
+
+        return content.DeserializerObject<VendorDetailResponse>();
     }
 }

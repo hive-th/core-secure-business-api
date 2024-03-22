@@ -95,7 +95,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseErrorHandling(new ErrorHandlingOptions("core.secure.business"));
+//app.UseErrorHandling(new ErrorHandlingOptions("core.secure.business"));
 
 app.UseRequestCulture();
 

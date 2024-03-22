@@ -2,5 +2,6 @@ namespace Core.Secure.Business.Domain.AggregatesModel.ScalableAggregate.ProductA
 
 public interface IProductRepository
 {
-    
+    Task<ProductResponse> GetProductByIdAsync(Guid ProductId);
+    Task<UnitResponse> GetUnitByIdAsync(Guid UnitId);
 }

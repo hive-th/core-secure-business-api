@@ -6,11 +6,12 @@ using Core.Secure.Business.Domain.AggregatesModel.CartAggregate.Interface;
 using Core.Secure.Business.Domain.AggregatesModel.LoggingAggregate.Interface;
 using Core.Secure.Business.Domain.AggregatesModel.OrderAggregate.Interface;
 using Core.Secure.Business.Domain.AggregatesModel.ProviderAggregate.RabbitMQAggregate.Interface;
-using Core.Secure.Business.Domain.AggregatesModel.ScalableAggregate.AuthAggregate.Interface;
 using Core.Secure.Business.Domain.AggregatesModel.ScalableAggregate.BPAggregate.Interface;
 using Core.Secure.Business.Domain.AggregatesModel.ScalableAggregate.MarketingAggregate.Interface;
 using Core.Secure.Business.Domain.AggregatesModel.ScalableAggregate.PaymentAggregate.Interface;
 using Core.Secure.Business.Domain.AggregatesModel.ScalableAggregate.ProductAggregate.Interface;
+using Core.Secure.Business.Domain.Facades;
+using Core.Secure.Business.Domain.Facades.Interface;
 using Core.Secure.Business.Domain.Services;
 using Core.Secure.Business.Domain.Services.Interface;
 using Core.Secure.Business.Infrastructure.Configurations;
@@ -58,17 +59,21 @@ public static class ServiceCollectionExtensions
         
         #region Repositories ScalableRepository
         
-        services.AddScoped<IAuthRepository, AuthRepository>();
         services.AddScoped<IBPRepository, BPRepository>();
         services.AddScoped<IMarketingRepository, MarketingRepository>();
         services.AddScoped<IPaymentRepository, PaymentRepository>();
         services.AddScoped<IProductRepository, ProductRepository>();
         
         #endregion
+        
+        #region Facades
+
+        services.AddTransient<IOrderFacade, OrderFacade>();
+
+        #endregion
 
         #region Services
         
-        services.AddTransient<IAuthService, AuthService>();
         services.AddTransient<ICacheService, CacheService>();
         services.AddTransient<ICartService, CartService>();
         services.AddTransient<ILoggingService, LoggingService>();

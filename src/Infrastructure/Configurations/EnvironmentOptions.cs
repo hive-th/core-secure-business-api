@@ -13,6 +13,10 @@ public class EnvironmentOptions
     [Required] public string BP_API_ENDPOINT { get; init; }
     [Required] public string BP_BASIC_AUTHENTICATION_USERNAME { get; init; }
     [Required] public string BP_BASIC_AUTHENTICATION_PASSWORD { get; init; }
+    
+    [Required] public string PRODUCT_API_ENDPOINT { get; init; }
+    [Required] public string PRODUCT_BASIC_AUTHENTICATION_USERNAME { get; init; }
+    [Required] public string PRODUCT_BASIC_AUTHENTICATION_PASSWORD { get; init; }
     [Required] public string POSTGRES_CONNECTIONSTRING { get; init; }
     [Required] public string AUTH_JWKS_ENDPOINT { get; init; }
     [Required] public string AUTH_API_ENDPOINT { get; init; }

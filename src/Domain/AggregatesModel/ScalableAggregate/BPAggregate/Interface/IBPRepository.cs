@@ -2,5 +2,5 @@ namespace Core.Secure.Business.Domain.AggregatesModel.ScalableAggregate.BPAggreg
 
 public interface IBPRepository
 {
- 
+    Task<VendorDetailResponse> GetVendorByIdAsync(Guid vendorId);
 }

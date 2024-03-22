@@ -23,11 +23,12 @@ namespace Core.Secure.Business.Infrastructure.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    cart_type = table.Column<CartType>(type: "jsonb", nullable: false),
-                    detail = table.Column<CartDetail>(type: "jsonb", nullable: true),
-                    description = table.Column<string>(type: "text", nullable: true),
-                    guest_id = table.Column<string>(type: "text", nullable: true),
+                    cart_type = table.Column<string>(type: "text", nullable: false),
+                    dealers = table.Column<List<Dealer>>(type: "jsonb", nullable: true),
+                    promotions = table.Column<List<Promotion>>(type: "jsonb", nullable: true),
+                    summary = table.Column<Summary>(type: "jsonb", nullable: true),
                     buyer_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    guest_id = table.Column<string>(type: "text", nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     created_by = table.Column<string>(type: "text", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -70,12 +71,12 @@ namespace Core.Secure.Business.Infrastructure.Migrations
                     order_request_no = table.Column<string>(type: "text", nullable: true),
                     promotion = table.Column<CartDetailPromotion>(type: "jsonb", nullable: true),
                     buyer = table.Column<AuthAccount>(type: "jsonb", nullable: true),
-                    deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    deleted_by = table.Column<string>(type: "text", nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     created_by = table.Column<string>(type: "text", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    updated_by = table.Column<string>(type: "text", nullable: true)
+                    updated_by = table.Column<string>(type: "text", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    deleted_by = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -137,9 +138,9 @@ namespace Core.Secure.Business.Infrastructure.Migrations
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     order_id = table.Column<Guid>(type: "uuid", nullable: false),
                     suborder_no = table.Column<string>(type: "text", nullable: true),
-                    suborder_type = table.Column<SuborderType>(type: "jsonb", nullable: false),
-                    shipping_type = table.Column<ShippingType>(type: "jsonb", nullable: false),
-                    status = table.Column<OrderStatus>(type: "jsonb", nullable: false),
+                    suborder_type = table.Column<string>(type: "text", nullable: false),
+                    shipping_type = table.Column<string>(type: "text", nullable: false),
+                    status = table.Column<string>(type: "text", nullable: false),
                     promotion = table.Column<CartDetailPromotion>(type: "jsonb", nullable: true),
                     suborder_discount = table.Column<CartPromotionSubcartDiscountResponse>(type: "jsonb", nullable: true),
                     items = table.Column<List<SuborderItem>>(type: "jsonb", nullable: true),

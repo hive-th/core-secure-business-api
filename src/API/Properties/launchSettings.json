@@ -23,6 +23,10 @@
         "BP_BASIC_AUTHENTICATION_USERNAME": "20gECgOFNX]73_Y2pFt6Kn6Pne9pu-3EtMt]iSAF/mM_R9B7B_xP--[zJ+zQ*hhtKF2vDTgaKE[NkOQM+HkJvOlPDlDPYac9u[eYZJ0Bo+b/jBmV46LGgzOf]Q]cji--",
         "BP_BASIC_AUTHENTICATION_PASSWORD": "jpbw*OWy[EnY127--TA]LnbeO7smPL-KD8iFh4BWyBIim7Y332ZA3NTo5ng_1LiW9gdV60Ycrmidg04s-3vv40*dLO7OwLYznFFSU+rmubSR-*c*gEEWXejcx4Jpc1L7",
 
+        "PRODUCT_API_ENDPOINT": "http://hivedev.thddns.net:4475",
+        "PRODUCT_BASIC_AUTHENTICATION_USERNAME": "20gECgOFNX]73_Y2pFt6Kn6Pne9pu-3EtMt]iSAF/mM_R9B7B_xP--[zJ+zQ*hhtKF2vDTgaKE[NkOQM+HkJvOlPDlDPYac9u[eYZJ0Bo+b/jBmV46LGgzOf]Q]cji--",
+        "PRODUCT_BASIC_AUTHENTICATION_PASSWORD": "jpbw*OWy[EnY127--TA]LnbeO7smPL-KD8iFh4BWyBIim7Y332ZA3NTo5ng_1LiW9gdV60Ycrmidg04s-3vv40*dLO7OwLYznFFSU+rmubSR-*c*gEEWXejcx4Jpc1L7",
+
         "REDIS_CONNECTIONSTRING": "localhost:6379,password=1234",
         "NOTIFICATION_ENDPOINT": "http://hivedev.thddns.net:4474",
         "RESOURCE_API_ENDPOINT": "http://hivedev.thddns.net:4473",

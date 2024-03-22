@@ -16,7 +16,7 @@ public class SuborderItem
     public string ToyoSku { get; set; }
 
     public Image Image { get; set; }
-    public List<CartDetailProductBadge> Badges { get; set; }
+   // public List<CartDetailProductBadge> Badges { get; set; }
     public ProductPackageUnitResponse PackageUnit { get; set; }
     public string PriceUnitDisplay { get; set; }
     public string SaleUnitDisplay { get; set; }

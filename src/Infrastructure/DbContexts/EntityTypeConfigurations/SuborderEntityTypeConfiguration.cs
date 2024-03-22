@@ -13,13 +13,13 @@ public class SuborderEntityTypeConfiguration : IEntityTypeConfiguration<Suborder
         builder.HasKey(m => m.Id);
         
         builder.Property(m => m.SuborderType)
-            .HasColumnType("jsonb");
+            .HasConversion<string>();
         
         builder.Property(m => m.ShippingType)
-            .HasColumnType("jsonb");
+            .HasConversion<string>();
         
         builder.Property(m => m.Status)
-            .HasColumnType("jsonb");
+            .HasConversion<string>();
         
         builder.Property(m => m.Promotion)
             .HasColumnType("jsonb");
