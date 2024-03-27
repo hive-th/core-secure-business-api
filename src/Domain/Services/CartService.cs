@@ -10,7 +10,9 @@ using Core.Secure.Business.Domain.AggregatesModel.CartAggregate.Interface;
 using Core.Secure.Business.Domain.AggregatesModel.CommonAggregate;
 using Core.Secure.Business.Domain.AggregatesModel.EntityAggregate;
 using Core.Secure.Business.Domain.AggregatesModel.OrderAggregate.Interface;
+using Core.Secure.Business.Domain.AggregatesModel.ScalableAggregate.BPAggregate;
 using Core.Secure.Business.Domain.AggregatesModel.ScalableAggregate.BPAggregate.Interface;
+using Core.Secure.Business.Domain.AggregatesModel.ScalableAggregate.ProductAggregate;
 using Core.Secure.Business.Domain.AggregatesModel.ScalableAggregate.ProductAggregate.Interface;
 using Core.Secure.Business.Domain.Extensions.CommonAggregate;
 using Core.Secure.Business.Domain.Services.Interface;
@@ -104,7 +106,7 @@ public class CartService : ICartService
                     GuestId = request.GuestId
                 };
             }
-        
+            
             var vendorDealer = await _bpRepository.GetVendorByIdAsync(request.DealerId.ToGuidResponse());
             if (vendorDealer is null)
                 throw new CustomHttpBadRequestException(module, "not_found", "The dealer not found.");
@@ -134,6 +136,10 @@ public class CartService : ICartService
                     ProductItems = new List<ProductItem>()
                 };
                 
+                var customerVendorResponse = await _bpRepository.GetCustomerVendorByAccountAsync(dealer.Id.ToGuidResponse());
+                if (customerVendorResponse is not null)
+                    dealer.IsRegister = true;
+                
                 var productMaker = new ProductMaker();
                 var maker = await _bpRepository.GetVendorByIdAsync(product.MakerId.ToGuidResponse());
                 if (maker is not null)
@@ -143,6 +149,8 @@ public class CartService : ICartService
                 }
 
                 var productPriceUnit = product.ProductPriceUnit.First(m => m.Unit.Id.Equals(request.UnitId.ToGuidResponse()));
+                var unitPrice = await CalculatePriceTier(productPriceUnit, vendorDealer.Id);
+                
                 dealer.ProductItems.Add(new ProductItem
                 {
                     Id = product.Id,
@@ -161,9 +169,9 @@ public class CartService : ICartService
                         Id = productPriceUnit.Unit.Id.ToString(),
                         Name = productPriceUnit.Unit.Name.XX
                     },
-                    UnitPrice = productPriceUnit.Price,//1. login? 2.register? 3.tier price
+                    UnitPrice = unitPrice,
                     Qty = request.Quantity,
-                    Price = productPriceUnit.Price * request.Quantity
+                    Price = unitPrice * request.Quantity
                 });
                 
                 foreach (var p in dealer.ProductItems)
@@ -199,8 +207,14 @@ public class CartService : ICartService
                         productMaker.MakerId = maker.Id.ToString();
                         productMaker.MakerName = maker.Name.XX;
                     }
+                    
+                    var customerVendorResponse = await _bpRepository.GetCustomerVendorByAccountAsync(dealerOld.Id.ToGuidResponse());
+                    if (customerVendorResponse is not null)
+                        dealerOld.IsRegister = true;
                         
                     var productPriceUnit = product.ProductPriceUnit.First(m => m.Unit.Id.Equals(request.UnitId.ToGuidResponse()));
+                    var unitPrice = await CalculatePriceTier(productPriceUnit, dealerOld.Id.ToGuidResponse());
+                    
                     dealerOld.ProductItems.Add(new ProductItem
                     {
                         Id = product.Id,
@@ -219,10 +233,11 @@ public class CartService : ICartService
                             Id = productPriceUnit.Unit.Id.ToString(),
                             Name = productPriceUnit.Unit.Name.XX
                         },
-                        UnitPrice = productPriceUnit.Price,//1. login? 2.register? 3.tier price
+                        UnitPrice = unitPrice,
                         Qty = request.Quantity,
-                        Price = productPriceUnit.Price * request.Quantity
+                        Price = unitPrice * request.Quantity
                     });
+                  
                 }
                 else
                 {
@@ -249,7 +264,13 @@ public class CartService : ICartService
                         productMaker.MakerName = maker.Name.XX;
                     }
                     
+                    var customerVendorResponse = await _bpRepository.GetCustomerVendorByAccountAsync(dealerNew.Id.ToGuidResponse());
+                    if (customerVendorResponse is not null)
+                        dealerNew.IsRegister = true;
+                    
                     var productPriceUnit = product.ProductPriceUnit.First(m => m.Unit.Id.Equals(request.UnitId.ToGuidResponse()));
+                    var unitPrice = await CalculatePriceTier(productPriceUnit, vendorDealer.Id);
+                   
                     dealerNew.ProductItems.Add(new ProductItem
                     {
                         Id = product.Id,
@@ -268,10 +289,11 @@ public class CartService : ICartService
                             Id = productPriceUnit.Unit.Id.ToString(),
                             Name = productPriceUnit.Unit.Name.XX
                         },
-                        UnitPrice = productPriceUnit.Price,//1. login? 2.register? 3.tier price
+                        UnitPrice = unitPrice,
                         Qty = request.Quantity,
-                        Price = productPriceUnit.Price * request.Quantity
+                        Price = unitPrice * request.Quantity
                     });
+                   
                     cart.Dealers.Add(dealerNew);
                 }
                 
@@ -302,6 +324,19 @@ public class CartService : ICartService
             Id = cart.Id,
             GuestId = cart.GuestId
         };
+    }
+
+    private async Task<decimal> CalculatePriceTier(ProductPriceUnitResponse productPriceUnit, Guid vendorId)
+    {
+        //1. login? 2.register? 3.tier price
+        var customerVendor = await _bpRepository.GetCustomerVendorByAccountAsync(vendorId);
+        if (customerVendor is null)
+            return productPriceUnit.Price;
+
+        var ppTier = productPriceUnit.ProductPriceTier
+            .FirstOrDefault(m => m.CustomerTierId.Equals(customerVendor.CustomerTierId.ToString()));
+        
+        return ppTier?.Discount ?? productPriceUnit.Price;
     }
 
     public Task<CartResponse> GetCartAsync(Guid cartId)

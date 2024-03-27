@@ -33,4 +33,18 @@ public class BPRepository : IBPRepository
 
         return content.DeserializerObject<VendorDetailResponse>();
     }
+
+    public async Task<CustomerVendorResponse> GetCustomerVendorByAccountAsync(Guid vendorId)
+    {
+        var client = _httpClientFactory.CreateBPApiClient();
+        client.ForwardHeaders(_httpContextAccessor);
+
+        var clientResult = await client.GetAsync($"client/customer-vendor/{vendorId.ToString()}");
+        var content = await clientResult.Content.ReadAsStringAsync();
+
+        if (!clientResult.IsSuccessStatusCode)
+            return null;
+
+        return content.DeserializerObject<CustomerVendorResponse>();
+    }
 }
