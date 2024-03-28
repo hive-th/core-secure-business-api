@@ -27,6 +27,16 @@ public class CartController : ControllerBase
         return Ok(result);
     }
     
+    [Authorize]
+    [HttpGet("{cartId:guid}")]
+    [ProducesResponseType(typeof(CartResponse), 200)]
+    public async Task<IActionResult> GetCartAsync([FromRoute] Guid cartId)
+    {
+        var result = await _cartService.GetCartAsync(cartId);
+
+        return Ok(result);
+    }
+    
     
     // [Authorize]
     // [HttpPost("mapping/{guestId:string}/guest")]
@@ -38,13 +48,5 @@ public class CartController : ControllerBase
     //     return Ok(result);
     // }
     
-    [AllowAnonymous]
-    [HttpGet("{cartId:guid}")]
-    [ProducesResponseType(typeof(CartResponse), 200)]
-    public async Task<IActionResult> GetCartAsync([FromRoute] Guid cartId)
-    {
-        var result = await _cartService.GetCartAsync(cartId);
 
-        return Ok(result);
-    }
 }

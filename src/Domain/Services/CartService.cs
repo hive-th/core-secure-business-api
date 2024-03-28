@@ -14,6 +14,7 @@ using Core.Secure.Business.Domain.AggregatesModel.ScalableAggregate.BPAggregate;
 using Core.Secure.Business.Domain.AggregatesModel.ScalableAggregate.BPAggregate.Interface;
 using Core.Secure.Business.Domain.AggregatesModel.ScalableAggregate.ProductAggregate;
 using Core.Secure.Business.Domain.AggregatesModel.ScalableAggregate.ProductAggregate.Interface;
+using Core.Secure.Business.Domain.Extensions.CartAggregate;
 using Core.Secure.Business.Domain.Extensions.CommonAggregate;
 using Core.Secure.Business.Domain.Services.Interface;
 using Core.Secure.Business.Domain.Validations.CartValidation;
@@ -339,11 +340,36 @@ public class CartService : ICartService
         return ppTier?.Discount ?? productPriceUnit.Price;
     }
 
-    public Task<CartResponse> GetCartAsync(Guid cartId)
+    public async Task<CartResponse> GetCartAsync(Guid cartId)
     {
-        throw new NotImplementedException();
+        var cart = await GetCartByIdOrAuthAsync(cartId);
+        if (cart is null)
+            throw new CustomHttpBadRequestException("get_cart", "cart_not_found", "The cart not found.");
+
+        var resp = cart.ToCartResponse();
+
+        return resp;
     }
 
+    public async Task<Cart> GetCartByIdOrAuthAsync(Guid cartId)
+    {
+        var cart = await _cartRepository.GetCartByIdAsync(cartId);
+        if (cart is null)
+            throw new CustomHttpBadRequestException("get_cart", "cart_not_found", "The cart not found.");
+
+        if (cart.CartType == CartType.GUEST_USER)
+            return cart;
+
+        if (!_httpContextAccessor.HasAuthorization()) return null;
+
+        var userId = _httpContextAccessor.GetUserId();
+
+        if (cart.CreatedBy == userId && cart.CartType == CartType.LOGGED_IN_USER)
+            return cart;
+
+        return null;
+    }
+    
     public Task<CartResponse> MappingGuestUserAsync(string guestId)
     {
         throw new NotImplementedException();
